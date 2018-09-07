@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HaschCode
+{
+    public enum FoodGroup
+    {
+        Meat, Fruit, Vegetables, Sweets
+    }
+
+    public struct FoodItem : IEquatable<FoodItem>
+    {
+        public FoodItem(string name, FoodGroup group)
+        {
+            _name = name;
+            _group = group;
+        }
+
+
+        public override string ToString()
+        {
+            return _name;
+        }
+
+
+        private readonly string _name;
+        private readonly FoodGroup _group;
+
+
+        public string Name { get { return _name; } }
+        public FoodGroup Group { get { return _group; } }
+
+
+
+        public bool Equals(FoodItem other)
+        {
+            return this.Name == other.Name && this.Group == other.Group;
+        }
+
+
+        public override int GetHashCode()
+        {
+            return   _name.GetHashCode() ^ _group.GetHashCode();
+            //^ - Exclusive OR operator
+        }
+
+
+
+
+        public override bool Equals(object obj)
+        {
+            if (obj is FoodItem)
+            {
+                return Equals((FoodItem)obj);
+            }
+            else
+                return false;
+        }
+
+        public static bool operator ==(FoodItem lhs, FoodItem rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        public static bool operator !=(FoodItem lhs, FoodItem rhs)
+        {
+            return !lhs.Equals(rhs);
+        }
+
+        
+    }
+}
